@@ -59,7 +59,30 @@ Sample_Concat_Lambda_Numbers();
 Sample_Concat_Lambda_Strings();
 Sample_SequenceEqual_Lambda();
 Sample_Zip_Lambda();
-
+Sample_Skip_Lambda();
+Sample_SkipWhile_Lambda();
+Sample_Take_Lambda();
+Sample_TakeWhile_Lambda();
+Sample_Select_Lambda_Simple();
+Sample_Select_Linq_Simple();
+Sample_Select_Lambda_Indexed();
+Sample_SelectMany_Lambda();
+Sample_SelectMany_Linq();
+Sample_All_Lambda();
+Sample_Any_Lambda();
+Sample_Contains_Lambda();
+Sample_Where_Lambda_Numbers();
+Sample_Where_Linq_Numbers();
+Sample_Where_Lambda_Indexed();
+Sample_Where_Linq_Indexed();
+Sample_Distinct_Lambda();
+Sample_Distinct_Linq();
+Sample_Except_Lambda();
+Sample_Except_Linq();
+Sample_Intersect_Lambda();
+Sample_Intersect_Linq();
+Sample_Union_Lambda();
+Sample_Union_Linq();
 
 //Aggregate Simple
 static void Sample_Aggregate_Lambda_Simple()
@@ -871,6 +894,296 @@ static void Sample_Zip_Lambda()
     var result = numbers1.Zip(numbers2, (a, b) => (a * b));
 
     Console.WriteLine("Using Zip to combine two arrays into one (1*10, 2*11, 3*12):");
+    foreach (int number in result)
+        Console.WriteLine(number);
+}
+
+static void Sample_Skip_Lambda()
+{
+    string[] words = { "one", "two", "three", "four", "five", "six" };
+
+    var result = words.Skip(4);
+
+    Console.WriteLine("Skips the first 4 words:");
+    foreach (string word in result)
+        Console.WriteLine(word);
+}
+
+static void Sample_SkipWhile_Lambda()
+{
+    string[] words = { "one", "two", "three", "four", "five", "six" };
+
+    var result = words.SkipWhile(w => w.Length == 3);
+
+    Console.WriteLine("Skips words while the condition is met:");
+    foreach (string word in result)
+        Console.WriteLine(word);
+}
+
+static void Sample_Take_Lambda()
+{
+    int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+    var result = numbers.Take(5);
+
+    Console.WriteLine("Takes the first 5 numbers only:");
+    foreach (int number in result)
+        Console.WriteLine(number);
+}
+
+static void Sample_TakeWhile_Lambda()
+{
+    int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+    var result = numbers.TakeWhile(n => n < 5);
+
+    Console.WriteLine("Takes numbers one by one, and stops when condition is no longer met:");
+    foreach (int number in result)
+        Console.WriteLine(number);
+}
+
+
+static void Sample_Select_Lambda_Simple()
+{
+    decimal[] numbers = { 3.4M, 8.33M, 5.225M };
+
+    var result = numbers.Select(n => Math.Floor(n));
+
+    Console.WriteLine("Numbers rounded down:");
+    foreach (int number in result)
+        Console.WriteLine(number);
+}
+
+static void Sample_Select_Linq_Simple()
+{
+    decimal[] numbers = { 3.4M, 8.33M, 5.225M };
+
+    var result = (from n in numbers
+                  select Math.Floor(n));
+
+    Console.WriteLine("Numbers rounded down:");
+    foreach (int number in result)
+        Console.WriteLine(number);
+}
+
+static void Sample_Select_Lambda_Indexed()
+{
+    string[] words = { "one", "two", "three" };
+
+    var result = words.Select((w, i) => new
+    {
+        Index = i,
+        Value = w
+    });
+
+    Console.WriteLine("Words with index and value:");
+    foreach (var word in result)
+        Console.WriteLine(String.Format("Index {0} is {1}", word.Index, word.Value));
+}
+
+static void Sample_SelectMany_Lambda()
+{
+    string[] fruits = { "Grape", "Orange", "Apple" };
+    int[] amounts = { 1, 2, 3 };
+
+    var result = fruits.SelectMany(f => amounts, (f, a) => new
+    {
+        Fruit = f,
+        Amount = a
+    });
+
+    Console.WriteLine("Selecting all values from each array, and mixing them:");
+    foreach (var o in result)
+        Console.WriteLine(o.Fruit + ", " + o.Amount);
+}
+
+static void Sample_SelectMany_Linq()
+{
+    string[] fruits = { "Grape", "Orange", "Apple" };
+    int[] amounts = { 1, 2, 3 };
+
+    var result = from f in fruits
+                 from a in amounts
+                 select new { Fruit = f, Amount = a };
+
+    Console.WriteLine("Selecting all values from each array, and mixing them:");
+    foreach (var o in result)
+        Console.WriteLine(String.Format("{0}, {1}", o.Fruit, o.Amount));
+}
+
+static void Sample_All_Lambda()
+{
+    string[] names = { "Bob", "Ned", "Amy", "Bill" };
+
+    var result = names.All(n => n.StartsWith("B"));
+
+    Console.WriteLine("Does all of the names start with the letter 'B':");
+    Console.WriteLine(result);
+}
+
+static void Sample_Any_Lambda()
+{
+    string[] names = { "Bob", "Ned", "Amy", "Bill" };
+
+    var result = names.Any(n => n.StartsWith("B"));
+
+    Console.WriteLine("Does any of the names start with the letter 'B':");
+    Console.WriteLine(result);
+}
+
+
+static void Sample_Contains_Lambda()
+{
+    int[] numbers = { 1, 3, 5, 7, 9 };
+
+    var result = numbers.Contains(5);
+
+    Console.WriteLine("sequence contains the value 5:");
+    Console.WriteLine(result);
+}
+
+static void Sample_Where_Lambda_Numbers()
+{
+    int[] numbers = { 5, 10, 15, 20, 25, 30 };
+
+    var result = numbers.Where(n => n >= 15 && n <= 25);
+
+    Console.WriteLine("Numbers being >= 15 and <= 25:");
+    foreach (var number in result)
+        Console.WriteLine(number);
+}
+
+static void Sample_Where_Linq_Numbers()
+{
+    int[] numbers = { 5, 10, 15, 20, 25, 30 };
+
+    var result = from n in numbers
+                 where n >= 15 && n <= 25
+                 select n;
+
+    Console.WriteLine("Numbers being >= 15 and <= 25:");
+    foreach (var number in result)
+        Console.WriteLine(number);
+}
+
+static void Sample_Where_Lambda_Indexed()
+{
+    int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+    var result = numbers.Where((n, i) => n % 3 == 0 && i >= 5);
+
+    Console.WriteLine("Numbers divisible by 3 and indexed >= 5:");
+    foreach (var number in result)
+        Console.WriteLine(number);
+}
+
+static void Sample_Where_Linq_Indexed()
+{
+    int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+    var result = from n in numbers.Select((Value, Index) => new { Value, Index })
+                 where (n.Value % 3 == 0 && n.Index >= 5)
+                 select n.Value;
+
+    Console.WriteLine("Numbers divisible by 3 and indexed >= 5:");
+    foreach (var number in result)
+        Console.WriteLine(number);
+}
+
+static void Sample_Distinct_Lambda()
+{
+    int[] numbers = { 1, 2, 2, 3, 5, 6, 6, 6, 8, 9 };
+
+    var result = numbers.Distinct();
+
+    Console.WriteLine("Distinct removes duplicate elements:");
+    foreach (int number in result)
+        Console.WriteLine(number);
+}
+
+static void Sample_Distinct_Linq()
+{
+    int[] numbers = { 1, 2, 2, 3, 5, 6, 6, 6, 8, 9 };
+
+    var result = (from n in numbers.Distinct()
+                  select n);
+
+    Console.WriteLine("Distinct removes duplicate elements:");
+    foreach (int number in result)
+        Console.WriteLine(number);
+}
+
+static void Sample_Except_Lambda()
+{
+    int[] numbers1 = { 1, 2, 3 };
+    int[] numbers2 = { 3, 4, 5 };
+
+    var result = numbers1.Except(numbers2);
+
+    Console.WriteLine("Except creates a single sequence from numbers1 and removes the duplicates found in numbers2:");
+    foreach (int number in result)
+        Console.WriteLine(number);
+}
+
+static void Sample_Except_Linq()
+{
+    int[] numbers1 = { 1, 2, 3 };
+    int[] numbers2 = { 3, 4, 5 };
+
+    var result = (from n in numbers1.Except(numbers2)
+                  select n);
+
+    Console.WriteLine("Except creates a single sequence from numbers1 and removes the duplicates found in numbers2:");
+    foreach (int number in result)
+        Console.WriteLine(number);
+}
+
+static void Sample_Intersect_Lambda()
+{
+    int[] numbers1 = { 1, 2, 3 };
+    int[] numbers2 = { 3, 4, 5 };
+
+    var result = numbers1.Intersect(numbers2);
+
+    Console.WriteLine("Intersect creates a single sequence with only the duplicates:");
+    foreach (int number in result)
+        Console.WriteLine(number);
+}
+
+static void Sample_Intersect_Linq()
+{
+    int[] numbers1 = { 1, 2, 3 };
+    int[] numbers2 = { 3, 4, 5 };
+
+    var result = (from n in numbers1.Intersect(numbers2)
+                  select n);
+
+    Console.WriteLine("Intersect creates a single sequence with only the duplicates:");
+    foreach (int number in result)
+        Console.WriteLine(number);
+}
+
+static void Sample_Union_Lambda()
+{
+    int[] numbers1 = { 1, 2, 3 };
+    int[] numbers2 = { 3, 4, 5 };
+
+    var result = numbers1.Union(numbers2);
+
+    Console.WriteLine("Union creates a single sequence and eliminates the duplicates:");
+    foreach (int number in result)
+        Console.WriteLine(number);
+}
+
+static void Sample_Union_Linq()
+{
+    int[] numbers1 = { 1, 2, 3 };
+    int[] numbers2 = { 3, 4, 5 };
+
+    var result = (from n in numbers1.Union(numbers2)
+                  select n);
+
+    Console.WriteLine("Union creates a single sequence and eliminates the duplicates:");
     foreach (int number in result)
         Console.WriteLine(number);
 }
