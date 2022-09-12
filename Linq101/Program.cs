@@ -43,7 +43,22 @@ Sample_GroupBy_Lambda();
 Sample_GroupBy_Linq();
 Sample_Join_Lambda();
 Sample_Join_Linq();
-
+Sample_OrderBy_Lambda_Numbers();
+Sample_OrderBy_Linq_Numbers();
+Sample_OrderBy_Lambda_Dates();
+Sample_OrderBy_Linq_Dates();
+Sample_OrderByDescending_Lambda();
+Sample_OrderByDescending_Linq();
+Sample_Reverse_Lambda();
+Sample_Reverse_Linq();
+Sample_ThenBy_Lambda();
+Sample_ThenBy_Linq();
+Sample_ThenByDescending_Lambda();
+Sample_ThenByDescending_Linq();
+Sample_Concat_Lambda_Numbers();
+Sample_Concat_Lambda_Strings();
+Sample_SequenceEqual_Lambda();
+Sample_Zip_Lambda();
 
 
 //Aggregate Simple
@@ -624,4 +639,238 @@ static void Sample_Join_Linq()
     Console.WriteLine("Joined countries which are both warm and European using Query Syntax:");
     foreach (var country in result)
         Console.WriteLine(country);
+}
+
+
+
+
+static void Sample_OrderBy_Lambda_Numbers()
+{
+    int[] numbers = { 7, 9, 5 };
+
+    var result = numbers.OrderBy(n => n);
+
+    Console.WriteLine("Ordered list of numbers:");
+    foreach (int number in result)
+        Console.WriteLine(number);
+}
+
+
+static void Sample_OrderBy_Linq_Numbers()
+{
+    int[] numbers = { 7, 9, 5 };
+
+    var result = from n in numbers
+                 orderby n
+                 select n;
+
+    Console.WriteLine("Ordered list of numbers:");
+    foreach (int number in result)
+        Console.WriteLine(number);
+}
+
+
+static void Sample_OrderBy_Lambda_Dates()
+{
+    var dates = new DateTime[] {
+        new DateTime(2015, 2, 15),
+        new DateTime(2015, 3, 25),
+        new DateTime(2015, 1, 5)
+    };
+
+    var result = dates.OrderBy(d => d);
+
+    Console.WriteLine("Ordered list of dates:");
+    foreach (DateTime dt in result)
+        Console.WriteLine(dt.ToString("yyyy/MM/dd"));
+}
+
+static void Sample_OrderBy_Linq_Dates()
+{
+    var dates = new DateTime[] {
+        new DateTime(2015, 2, 15),
+        new DateTime(2015, 3, 25),
+        new DateTime(2015, 1, 5)
+    };
+
+    var result = from d in dates
+                 orderby d
+                 select d;
+
+    Console.WriteLine("Ordered list of dates:");
+    foreach (DateTime dt in result)
+        Console.WriteLine(dt.ToString("yyyy/MM/dd"));
+}
+
+
+static void Sample_OrderByDescending_Lambda()
+{
+    string[] names = { "Ned", "Ben", "Susan" };
+
+    var result = names.OrderByDescending(n => n);
+
+    Console.WriteLine("Descending ordered list of names:");
+    foreach (string name in result)
+        Console.WriteLine(name);
+}
+
+
+static void Sample_OrderByDescending_Linq()
+{
+    string[] names = { "Ned", "Ben", "Susan" };
+
+    var result = from n in names
+                 orderby n descending
+                 select n;
+
+    Console.WriteLine("Descending ordered list of names:");
+    foreach (string name in result)
+        Console.WriteLine(name);
+}
+
+static void Sample_Reverse_Lambda()
+{
+    char[] characters = { 's', 'a', 'm', 'p', 'l', 'e' };
+
+    var result = characters.Reverse();
+
+    Console.WriteLine("Characters in reverse order:");
+    foreach (char character in result)
+        Console.WriteLine(character);
+}
+
+static void Sample_Reverse_Linq()
+{
+    char[] characters = { 's', 'a', 'm', 'p', 'l', 'e' };
+
+    var result = (from c in characters.Reverse()
+                  select c);
+
+    Console.WriteLine("Characters in reverse order:");
+    foreach (char character in result)
+        Console.WriteLine(character);
+}
+
+static void Sample_ThenBy_Lambda()
+{
+    string[] capitals = { "Berlin", "Paris", "Madrid", "Tokyo", "London",
+                          "Athens", "Beijing", "Seoul" };
+
+    var result = capitals.OrderBy(c => c.Length).ThenBy(c => c);
+
+    Console.WriteLine("Ordered list of capitals, first by length and then alphabetical:");
+    foreach (string capital in result)
+        Console.WriteLine(capital);
+}
+
+static void Sample_ThenBy_Linq()
+{
+    string[] capitals = { "Berlin", "Paris", "Madrid", "Tokyo", "London", "Athens", "Beijing", "Seoul" };
+
+    var result = (from c in capitals
+                  orderby c.Length
+                  select c)
+                 .ThenBy(c => c);
+
+    Console.WriteLine("Ordered list of capitals, first by length and then alphabetical:");
+    foreach (string capital in result)
+        Console.WriteLine(capital);
+}
+
+
+static void Sample_ThenByDescending_Lambda()
+{
+    var dates = new DateTime[] {
+        new DateTime(2015, 3, 1),
+        new DateTime(2014, 7, 1),
+        new DateTime(2013, 5, 1),
+        new DateTime(2015, 1, 1),
+        new DateTime(2015, 7, 1)
+    };
+
+    var result = dates.OrderByDescending(d => d.Year).ThenByDescending(d => d.Month);
+
+    Console.WriteLine("List of dates first ordered by year descending, and then by month descending:");
+    foreach (DateTime dt in result)
+        Console.WriteLine(dt.ToString("yyyy/MM/dd"));
+}
+
+static void Sample_ThenByDescending_Linq()
+{
+    var dates = new DateTime[] {
+        new DateTime(2015, 3, 1),
+        new DateTime(2014, 7, 1),
+        new DateTime(2013, 5, 1),
+        new DateTime(2015, 1, 1),
+        new DateTime(2015, 7, 1)
+    };
+
+    var result = from d in dates
+                 orderby d.Year descending, d.Month descending
+                 select d;
+
+    Console.WriteLine("List of dates first ordered by year descending, and then by month descending:");
+    foreach (DateTime dt in result)
+        Console.WriteLine(dt.ToString("yyyy/MM/dd"));
+}
+
+static void Sample_Concat_Lambda_Numbers()
+{
+    int[] numbers1 = { 1, 2, 3 };
+    int[] numbers2 = { 4, 5, 6 };
+
+    var result = numbers1.Concat(numbers2);
+
+    Console.WriteLine("Concatenating numbers1 and numbers2 gives:");
+    foreach (int number in result)
+        Console.WriteLine(number);
+}
+
+static void Sample_Concat_Lambda_Strings()
+{
+    string[] vegetables = { "Tomato", "Cucumber", "Carrot" };
+    string[] fruits = { "Apples", "Grapes", "Banana" };
+
+    var result = vegetables.Concat(fruits);
+
+    Console.WriteLine("Concatinating vegetables and fruits gives:");
+    foreach (string piece in result)
+        Console.WriteLine(piece);
+}
+
+static void Sample_SequenceEqual_Lambda()
+{
+    string[] words = { "one", "two", "three" };
+    string[] wordsSame = { "one", "two", "three" };
+    string[] wordsOrder = { "two", "three", "one" };
+    string[] wordsCase = { "one", "TWO", "three" };
+
+    var resultSame = words.SequenceEqual(wordsSame);
+    var resultOrder = words.SequenceEqual(wordsOrder);
+    var resultCase = words.SequenceEqual(wordsCase);
+    var resultCaseIgnored = words.SequenceEqual(wordsCase, StringComparer.OrdinalIgnoreCase);
+
+    Console.WriteLine("SequenceEqual on two identical arrays:");
+    Console.WriteLine(resultSame);
+
+    Console.WriteLine("SequenceEqual on two differently ordered but otherwise identical arrays:");
+    Console.WriteLine(resultOrder);
+
+    Console.WriteLine("SequenceEqual on two differently cased but otherwise identical arrays:");
+    Console.WriteLine(resultCase);
+
+    Console.WriteLine("SequenceEqual on two differently cased but otherwise identical arrays, where case is ignored:");
+    Console.WriteLine(resultCaseIgnored);
+}
+
+static void Sample_Zip_Lambda()
+{
+    int[] numbers1 = { 1, 2, 3 };
+    int[] numbers2 = { 10, 11, 12 };
+
+    var result = numbers1.Zip(numbers2, (a, b) => (a * b));
+
+    Console.WriteLine("Using Zip to combine two arrays into one (1*10, 2*11, 3*12):");
+    foreach (int number in result)
+        Console.WriteLine(number);
 }
