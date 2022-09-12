@@ -5,7 +5,10 @@
 Sample_Aggregate_Lambda_Seed();
 Sample_Average_Lambda();
 Sample_Count_Lambda(); 
-Sample_LongCount_Lambda();
+//Sample_LongCount_Lambda();
+Sample_Max_Lambda();
+Sample_Min_Lambda();
+Sample_Sum_Lambda();
 
 
 //Aggregate Simple
@@ -65,5 +68,44 @@ static void Sample_LongCount_Lambda()
     Int64 result = largeArr.LongCount();
 
     Console.WriteLine("Counting largeArr elements:");
+    Console.WriteLine(result);
+}
+
+
+//Max
+
+static void Sample_Max_Lambda()
+{
+    int[] numbers = { 2, 8, 5, 6, 1 };
+
+    var result = numbers.Max();
+
+    Console.WriteLine("Highest number is:");
+    Console.WriteLine(result);
+}
+
+
+//Min
+static void Sample_Min_Lambda()
+{
+    int[] numbers = { 6, 9, 3, 7, 5 };
+
+    var result = numbers.Min();
+
+    Console.WriteLine("Lowest number is:");
+    Console.WriteLine(result);
+}
+
+
+//Sum
+
+
+static void Sample_Sum_Lambda()
+{
+    int[] numbers = { 2, 5, 10 };
+
+    var result = numbers.Sum();
+
+    Console.WriteLine("Summing the numbers yields:");
     Console.WriteLine(result);
 }
