@@ -41,6 +41,8 @@ Sample_Repeat_Lambda();
 Sample_Repeat_Linq();
 Sample_GroupBy_Lambda();
 Sample_GroupBy_Linq();
+Sample_Join_Lambda();
+Sample_Join_Linq();
 
 
 
@@ -598,3 +600,28 @@ static void Sample_GroupBy_Linq()
 }
 
 
+static void Sample_Join_Lambda()
+{
+    string[] warmCountries = { "Turkey", "Italy", "Spain", "Saudi Arabia", "Etiobia" };
+    string[] europeanCountries = { "Denmark", "Germany", "Italy", "Portugal", "Spain" };
+
+    var result = warmCountries.Join(europeanCountries, warm => warm, european => european, (warm, european) => warm);
+
+    Console.WriteLine("Joined countries which are both warm and Europan:");
+    foreach (var country in result) // Note: result is an anomymous type, thus must use a var to iterate.
+        Console.WriteLine(country);
+}
+
+static void Sample_Join_Linq()
+{
+    string[] warmCountries = { "Turkey", "Italy", "Spain", "Saudi Arabia", "Etiobia" };
+    string[] europeanCountries = { "Denmark", "Germany", "Italy", "Portugal", "Spain" };
+
+    var result = (from w in warmCountries
+                  join e in europeanCountries on w equals e
+                  select w);
+
+    Console.WriteLine("Joined countries which are both warm and European using Query Syntax:");
+    foreach (var country in result)
+        Console.WriteLine(country);
+}
