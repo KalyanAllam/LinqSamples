@@ -1,13 +1,16 @@
 ﻿// See https://aka.ms/new-console-template for more information
 // https://linqsamples.com/linq-to-objects/
+using System;
+using System.Linq;
+using System.Collections.Generic;
 
- 
-
+Sample_LastDuplicate();
+/*
  Sample_Aggregate_Lambda_Simple();
 Sample_Aggregate_Lambda_Seed();
 Sample_Average_Lambda();
 Sample_Count_Lambda(); 
-//Sample_LongCount_Lambda();
+ Sample_LongCount_Lambda();
 Sample_Max_Lambda();
 Sample_Min_Lambda();
 Sample_Sum_Lambda();
@@ -83,7 +86,7 @@ Sample_Intersect_Lambda();
 Sample_Intersect_Linq();
 Sample_Union_Lambda();
 Sample_Union_Linq();
-
+*/
 //Aggregate Simple
 static void Sample_Aggregate_Lambda_Simple()
 {
@@ -1186,4 +1189,30 @@ static void Sample_Union_Linq()
     Console.WriteLine("Union creates a single sequence and eliminates the duplicates:");
     foreach (int number in result)
         Console.WriteLine(number);
+}
+
+
+static void Sample_LastDuplicate()
+{
+    List<string> myList = new List<string> { "txt1", "txt2", "txt3", "txt1", "txt4", "txt5", "txt4" };
+    //get unique values and its indexes
+    List<Tuple<string, int>> uniquelist = myList.Distinct()
+        .Select(x => new Tuple<string, int>(x, myList.IndexOf(x)))
+        .ToList();
+    //find indexes of duplicates
+    List<int> indOfDup = Enumerable.Range(0, myList.Count)
+        .Where(x => !uniquelist.Any(y => y.Item2 == x))
+        .ToList();
+    //remove duplicates from original list
+    string flag = "";
+    for (int i = indOfDup.Count() - 1; i >= 0; i--)
+    {
+       
+        if(flag=="")
+        { Console.WriteLine(myList[indOfDup[i]]); }
+        flag = "N";
+        // myList.RemoveAt(indOfDup[i]);
+    }
+
+   
 }
